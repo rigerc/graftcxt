@@ -62,3 +62,14 @@
 {"ts":"2026-05-06T19:55:37.131353859+02:00","cmd":"update","flags":{"append":"true","description-file":"docs/plans/td-eb639c-spinner-enhancement.md"},"session":"ses_d42e49","ok":true,"dur_ms":63}
 {"ts":"2026-05-06T19:57:11.926618939+02:00","cmd":"update","flags":{"append":"true","description-file":"docs/plans/td-eb639c-spinner-enhancement.md"},"session":"ses_d42e49","ok":true,"dur_ms":45}
 {"ts":"2026-05-06T19:57:19.54715077+02:00","cmd":"show","session":"ses_d42e49","ok":true,"dur_ms":6}
+{"ts":"2026-05-06T19:57:55.111648371+02:00","cmd":"show","session":"ses_4bb880","ok":true,"dur_ms":7}
+{"ts":"2026-05-06T19:57:55.118436417+02:00","cmd":"show","session":"ses_4bb880","ok":true,"dur_ms":2}
+{"ts":"2026-05-06T19:57:55.105785025+02:00","cmd":"usage","flags":{"new-session":"true"},"session":"ses_4bb880","ok":true,"dur_ms":68}
+{"ts":"2026-05-06T19:58:04.022970073+02:00","cmd":"start","session":"ses_4bb880","ok":true,"dur_ms":98}
+{"ts":"2026-05-06T20:21:56.83035739+02:00","cmd":"usage","flags":{"new-session":"true"},"session":"ses_b1d04d","ok":true,"dur_ms":45}
+{"ts":"2026-05-06T20:23:10.459629773+02:00","cmd":"create","ok":false,"dur_ms":0,"err":"unknown flag: --json"}
+{"ts":"2026-05-06T20:23:16.533351009+02:00","cmd":"create","flags":{"description-file":"/tmp/sync-smart-plan.md","priority":"P2","type":"feature"},"session":"ses_b1d04d","ok":true,"dur_ms":75}
+{"ts":"2026-05-06T20:23:21.819562545+02:00","cmd":"link","session":"ses_b1d04d","ok":true,"dur_ms":52}
+{"ts":"2026-05-06T20:23:29.623365441+02:00","cmd":"show","session":"ses_b1d04d","ok":true,"dur_ms":4}
+{"ts":"2026-05-06T20:23:40.325451706+02:00","cmd":"start","session":"ses_b1d04d","ok":true,"dur_ms":87}
+{"ts":"2026-05-06T20:25:21.248623546+02:00","cmd":"log","flags":{"decision":"true"},"session":"ses_b1d04d","ok":true,"dur_ms":53}

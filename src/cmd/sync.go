@@ -9,6 +9,7 @@ import (
 
 	"charm.land/lipgloss/v2"
 	ctx "github.com/rigerc/graftcxt/internal/context"
+	"github.com/rigerc/graftcxt/internal/ui"
 	"github.com/spf13/cobra"
 )
 
@@ -65,7 +66,15 @@ var syncCmd = &cobra.Command{
 			filesBefore := countFiles(dest)
 
 			fmt.Fprintf(cmd.OutOrStdout(), "     Syncing...\n")
-			if err := ctx.SyncRepoWithWriter(e.Repo, dest, gh, cmd.OutOrStdout()); err != nil {
+
+			// Use a live-updating spinner for visual feedback during sync
+			err := ui.RunLiveSpinner(
+				fmt.Sprintf("Syncing %s", e.Repo),
+				func(updateTitle func(string)) error {
+					return ctx.SyncRepo(e.Repo, dest, gh, updateTitle)
+				},
+			)
+			if err != nil {
 				fmt.Fprintf(cmd.OutOrStdout(), "     ❌ Error: %v\n", err)
 				return err
 			}
