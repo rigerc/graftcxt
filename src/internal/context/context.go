@@ -21,10 +21,11 @@ import (
 )
 
 type ContextEntry struct {
-	Repo     string  `json:"repo"`
-	Name     string  `json:"name"`
-	LastSync *string `json:"last_sync"`
-	Dir      string  `json:"dir,omitempty"`
+	Repo        string  `json:"repo"`
+	Name        string  `json:"name"`
+	LastSync    *string `json:"last_sync"`
+	LastTreeSHA *string `json:"last_tree_sha,omitempty"`
+	Dir         string  `json:"dir,omitempty"`
 }
 
 type ProjectFile struct {

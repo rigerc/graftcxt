@@ -73,3 +73,24 @@
 {"ts":"2026-05-06T20:23:29.623365441+02:00","cmd":"show","session":"ses_b1d04d","ok":true,"dur_ms":4}
 {"ts":"2026-05-06T20:23:40.325451706+02:00","cmd":"start","session":"ses_b1d04d","ok":true,"dur_ms":87}
 {"ts":"2026-05-06T20:25:21.248623546+02:00","cmd":"log","flags":{"decision":"true"},"session":"ses_b1d04d","ok":true,"dur_ms":53}
+{"ts":"2026-05-06T20:32:53.227965178+02:00","cmd":"log","session":"ses_b1d04d","ok":true,"dur_ms":49}
+{"ts":"2026-05-06T20:32:53.327371377+02:00","cmd":"log","session":"ses_b1d04d","ok":true,"dur_ms":52}
+{"ts":"2026-05-06T20:32:53.433605665+02:00","cmd":"log","session":"ses_b1d04d","ok":true,"dur_ms":54}
+{"ts":"2026-05-06T20:32:53.545856346+02:00","cmd":"log","session":"ses_b1d04d","ok":true,"dur_ms":50}
+{"ts":"2026-05-06T20:33:10.518618314+02:00","cmd":"handoff","flags":{"decision":"[Using GitHub API tree SHA comparison instead of go-git - lighter approach that fits existing architecture without adding .git directories]","done":"[Added LastTreeSHA field to ContextEntry; Implemented shouldSkipSync/wouldSkipSync functions; Added --force flag; Updated sync output with skip detection and enhanced summary]","remaining":"[Testing with actual repos to verify change detection works correctly; Consider adding unit tests for shouldSkipSync function]"},"session":"ses_b1d04d","ok":true,"dur_ms":115}
+{"ts":"2026-05-06T20:39:52.916290059+02:00","cmd":"usage","flags":{"new-session":"true"},"session":"ses_5666e6","ok":true,"dur_ms":44}
+{"ts":"2026-05-06T20:40:01.862494847+02:00","cmd":"create","session":"ses_5666e6","ok":false,"dur_ms":6,"err":"invalid type: enhancement"}
+{"ts":"2026-05-06T20:40:01.871905818+02:00","cmd":"create","session":"ses_5666e6","ok":false,"dur_ms":2,"err":"invalid type: enhancement"}
+{"ts":"2026-05-06T20:40:01.868905531+02:00","cmd":"create","session":"ses_5666e6","ok":false,"dur_ms":2,"err":"invalid type: enhancement"}
+{"ts":"2026-05-06T20:40:07.484870247+02:00","cmd":"create","flags":{"priority":"P2","type":"feature"},"session":"ses_5666e6","ok":true,"dur_ms":108}
+{"ts":"2026-05-06T20:40:07.494023909+02:00","cmd":"create","flags":{"priority":"P2","type":"feature"},"session":"ses_5666e6","ok":true,"dur_ms":116}
+{"ts":"2026-05-06T20:40:07.501040846+02:00","cmd":"create","flags":{"priority":"P1","type":"feature"},"session":"ses_5666e6","ok":true,"dur_ms":119}
+{"ts":"2026-05-06T20:40:18.43462348+02:00","cmd":"list","flags":{"json":"true"},"session":"ses_5666e6","ok":true,"dur_ms":7}
+{"ts":"2026-05-06T20:41:28.044921422+02:00","cmd":"update","flags":{"description-file":"/mnt/extra-ssd/dev/projects/graftcxt/.td/plans/silent-flag-plan.md"},"session":"ses_5666e6","ok":true,"dur_ms":71}
+{"ts":"2026-05-06T20:41:28.049562159+02:00","cmd":"update","flags":{"description-file":"/mnt/extra-ssd/dev/projects/graftcxt/.td/plans/add-form-directory-plan.md"},"session":"ses_5666e6","ok":true,"dur_ms":71}
+{"ts":"2026-05-06T20:41:28.05649179+02:00","cmd":"update","flags":{"description-file":"/mnt/extra-ssd/dev/projects/graftcxt/.td/plans/koanf-migration-plan.md"},"session":"ses_5666e6","ok":true,"dur_ms":73}
+{"ts":"2026-05-06T20:41:38.151182543+02:00","cmd":"show","session":"ses_5666e6","ok":true,"dur_ms":5}
+{"ts":"2026-05-06T20:41:38.158928918+02:00","cmd":"show","session":"ses_5666e6","ok":true,"dur_ms":3}
+{"ts":"2026-05-06T20:41:38.166460865+02:00","cmd":"show","session":"ses_5666e6","ok":true,"dur_ms":2}
+{"ts":"2026-05-06T20:58:01.982521217+02:00","cmd":"usage","flags":{"new-session":"true"},"session":"ses_25cc07","ok":true,"dur_ms":81}
+{"ts":"2026-05-06T20:58:02.134002683+02:00","cmd":"list","flags":{"status":"[open]"},"session":"ses_25cc07","ok":true,"dur_ms":3}

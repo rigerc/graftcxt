@@ -35,17 +35,20 @@
     {
       "repo": "rigerc/repo",
       "name": "repo",
-      "last_sync": "2026-05-06T16:14:40Z"
+      "last_sync": "2026-05-06T18:33:01Z",
+      "last_tree_sha": "6a1a64bb0eea8833e9d86607fda2ce6382359278"
     },
     {
       "repo": "rigerc/repo-2",
       "name": "repo-2",
-      "last_sync": "2026-05-06T17:11:59Z"
+      "last_sync": "2026-05-06T18:33:05Z",
+      "last_tree_sha": "a26d9322006d27470c3a664a06b6d4142c2f1ebe"
     },
     {
       "repo": "rigerc/obsidian",
       "name": "obsidian",
-      "last_sync": null
+      "last_sync": "2026-05-06T18:33:41Z",
+      "last_tree_sha": "b094fad2e2573bc16aa9f85b2b44c0499918807b"
     }
   ]
 }
