@@ -1,13 +1,12 @@
 module github.com/rigerc/graftcxt
 
-go 1.24.2
+go 1.25.0
 
 require (
 	charm.land/huh/v2 v2.0.0
 	charm.land/lipgloss/v2 v2.0.0
 	github.com/google/go-github/v68 v68.0.0
 	github.com/spf13/cobra v1.8.1
-	golang.org/x/oauth2 v0.24.0
 )
 
 require (

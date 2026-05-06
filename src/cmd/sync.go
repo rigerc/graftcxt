@@ -19,11 +19,14 @@ var syncCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		gh := ctx.NewGitHubClient()
+		gh, err := ctx.NewGitHubClient()
+		if err != nil {
+			return err
+		}
 		for i, e := range pf.Context {
 			fmt.Fprintf(cmd.OutOrStdout(), "Syncing %s...\n", e.Repo)
 			dest := contextEntryPath(projectFile, e)
-			if err := ctx.SyncRepo(e.Repo, dest, gh); err != nil {
+			if err := ctx.SyncRepoWithWriter(e.Repo, dest, gh, cmd.OutOrStdout()); err != nil {
 				return err
 			}
 			now := ctx.NowString()

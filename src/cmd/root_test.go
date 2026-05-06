@@ -98,10 +98,10 @@ func TestContextEntryPathCustomNested(t *testing.T) {
 }
 
 func TestContextEntryPathEmptyDirUsesDefault(t *testing.T) {
-	projectFile := "C:\\projects\\test\\.project.json"
+	projectFile := "/projects/test/.project.json"
 	entry := ctx.ContextEntry{Name: "repo", Dir: ""}
 	got := ctx.ContextEntryPath(projectFile, entry)
-	want := "C:\\projects\\test\\docs\\context\\repo"
+	want := "/projects/test/docs/context/repo"
 	if got != want {
 		t.Fatalf("got %q, want %q", got, want)
 	}

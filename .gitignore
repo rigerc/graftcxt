@@ -6,7 +6,7 @@ mcp.json
 .agentsmesh/mcp.json
 
 # docs, contex
-./docs/
+docs/*
 
 # agents
 agentsmesh.local.yaml
@@ -24,6 +24,7 @@ skills-lock.json
 opencode.json
 opencode.jsonc
 CLAUDE.md
+.pi/*
 
 # todos
 ./.todos/

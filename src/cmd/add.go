@@ -46,7 +46,12 @@ var (
 				return fmt.Errorf("%s is already tracked", repoID)
 			}
 			dest := contextEntryPath(projectFile, ctx.ContextEntry{Name: name, Dir: addDir})
-			if err := ctx.SyncRepo(repoID, dest, ctx.NewGitHubClient()); err != nil {
+			gh, err := ctx.NewGitHubClient()
+			if err != nil {
+				return err
+			}
+			fmt.Fprintf(cmd.OutOrStdout(), "Syncing %s...\n", repoID)
+			if err := ctx.SyncRepoWithWriter(repoID, dest, gh, cmd.OutOrStdout()); err != nil {
 				return err
 			}
 			now := ctx.NowString()

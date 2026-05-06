@@ -36,6 +36,11 @@
       "repo": "rigerc/repo",
       "name": "repo",
       "last_sync": "2026-05-06T16:14:40Z"
+    },
+    {
+      "repo": "rigerc/repo-2",
+      "name": "repo-2",
+      "last_sync": "2026-05-06T17:11:59Z"
     }
   ]
 }

@@ -6,15 +6,18 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
+	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/google/go-github/v68/github"
-	"golang.org/x/oauth2"
+	
+	"github.com/rigerc/graftcxt/internal/githubclient"
 )
 
 type ContextEntry struct {
@@ -150,27 +153,57 @@ func RemoveEntry(pf *ProjectFile, repoID string) {
 	pf.Context = out
 }
 
-func NewGitHubClient() *github.Client {
-	var hc *http.Client
-	if token := os.Getenv("GITHUB_TOKEN"); token != "" {
-		hc = oauth2.NewClient(stdctx.Background(), oauth2.StaticTokenSource(&oauth2.Token{AccessToken: token}))
+func getGHCLIToken() string {
+	cmd := exec.Command("gh", "auth", "token")
+	out, err := cmd.Output()
+	if err != nil {
+		return ""
 	}
-	return github.NewClient(hc)
+	return strings.TrimSpace(string(out))
 }
 
-func SyncRepo(repoID, destPath string, gh *github.Client) error {
+func NewGitHubClient() (*github.Client, error) {
+	// 1. Environment variable
+	token := strings.TrimSpace(os.Getenv("GITHUB_TOKEN"))
+	// 2. Try gh CLI
+	if token == "" {
+		token = getGHCLIToken()
+	}
+	if token == "" {
+		return nil, errors.New("no GitHub token found (set GITHUB_TOKEN or run 'gh auth login')")
+	}
+	svc := githubclient.NewService(token)
+	return svc.Client(), nil
+}  
+
+func SyncRepo(repoID, destPath string, gh *github.Client, progressFn func(path string)) error {
 	owner, repo, subdir, ref, err := ParseRepoRef(repoID)
 	if err != nil {
 		return err
 	}
 	if gh == nil {
-		gh = NewGitHubClient()
+		var err error
+		gh, err = NewGitHubClient()
+		if err != nil {
+			return fmt.Errorf("failed to create GitHub client: %w", err)
+		}
 	}
-	tree, _, err := gh.Git.GetTree(stdctx.Background(), owner, repo, ref, true)
+
+	// Context with timeout for API calls
+	ctx, cancel := stdctx.WithTimeout(stdctx.Background(), 5*time.Minute)
+	defer cancel()
+
+	tree, _, err := gh.Git.GetTree(ctx, owner, repo, ref, true)
 	if err != nil {
-		return err
+		return fmt.Errorf("get tree: %w", err)
 	}
-	seen := map[string]bool{}
+
+	// Collect blob entries to download
+	type blobEntry struct {
+		sha  string
+		path string
+	}
+	var blobs []blobEntry
 	prefix := strings.Trim(subdir, "/")
 	if prefix != "" {
 		prefix += "/"
@@ -193,24 +226,104 @@ func SyncRepo(repoID, destPath string, gh *github.Client) error {
 		if strings.HasPrefix(clean, "..") || filepath.IsAbs(clean) {
 			return fmt.Errorf("unsafe path from GitHub tree: %s", path)
 		}
-		blob, _, err := gh.Git.GetBlob(stdctx.Background(), owner, repo, entry.GetSHA())
-		if err != nil {
-			return err
-		}
-		content, err := decodeBlob(blob)
-		if err != nil {
-			return fmt.Errorf("decode %s: %w", path, err)
-		}
-		out := filepath.Join(destPath, clean)
-		if err := os.MkdirAll(filepath.Dir(out), 0o755); err != nil {
-			return err
-		}
-		if err := os.WriteFile(out, content, 0o644); err != nil {
-			return err
-		}
-		seen[clean] = true
+		blobs = append(blobs, blobEntry{sha: entry.GetSHA(), path: clean})
 	}
+
+	// Concurrent download with worker pool
+	const maxWorkers = 5
+	var (
+		wg     sync.WaitGroup
+		mu     sync.Mutex
+		downErr error
+		seen   = make(map[string]bool)
+	)
+
+	jobs := make(chan blobEntry, len(blobs))
+	for _, b := range blobs {
+		jobs <- b
+	}
+	close(jobs)
+
+	// Start workers
+	for i := 0; i < maxWorkers && i < len(blobs); i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for job := range jobs {
+				// Check for earlier error
+				mu.Lock()
+				if downErr != nil {
+					mu.Unlock()
+					return
+				}
+				mu.Unlock()
+
+				blob, _, err := gh.Git.GetBlob(ctx, owner, repo, job.sha)
+				if err != nil {
+					mu.Lock()
+					if downErr == nil {
+						downErr = fmt.Errorf("download %s: %w", job.path, err)
+					}
+					mu.Unlock()
+					return
+				}
+				content, err := decodeBlob(blob)
+				if err != nil {
+					mu.Lock()
+					if downErr == nil {
+						downErr = fmt.Errorf("decode %s: %w", job.path, err)
+					}
+					mu.Unlock()
+					return
+				}
+
+				out := filepath.Join(destPath, job.path)
+				if err := os.MkdirAll(filepath.Dir(out), 0o755); err != nil {
+					mu.Lock()
+					if downErr == nil {
+						downErr = fmt.Errorf("create dir for %s: %w", job.path, err)
+					}
+					mu.Unlock()
+					return
+				}
+				if err := os.WriteFile(out, content, 0o644); err != nil {
+					mu.Lock()
+					if downErr == nil {
+						downErr = fmt.Errorf("write %s: %w", job.path, err)
+					}
+					mu.Unlock()
+					return
+				}
+
+				mu.Lock()
+				seen[job.path] = true
+				mu.Unlock()
+
+				if progressFn != nil {
+					progressFn(job.path)
+				}
+			}
+		}()
+	}
+
+	wg.Wait()
+
+	mu.Lock()
+	if downErr != nil {
+		err := downErr
+		mu.Unlock()
+		return err
+	}
+	mu.Unlock()
+
 	return cleanDest(destPath, seen)
+}
+
+// SyncRepoWithWriter syncs a repo and writes progress to w.
+func SyncRepoWithWriter(repoID, destPath string, gh *github.Client, w io.Writer) error {
+	return SyncRepo(repoID, destPath, gh, func(path string) {
+		fmt.Fprintf(w, "  -> %s\n", path)
+	})
 }
 
 func decodeBlob(blob *github.Blob) ([]byte, error) {
