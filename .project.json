@@ -1,0 +1,34 @@
+{
+  "project": {
+    "name": "graftcxt",
+    "path": "/mnt/extra-ssd/dev/projects/graftcxt",
+    "url": "https://github.com/rigerc/graftcxt",
+    "description": "Small CLI that pulls external repos for local agent context.",
+    "status": "active",
+    "createdAt": "2026-05-06T16:01:51Z",
+    "license": "MIT",
+    "tech": {
+      "languages": [
+        "go"
+      ],
+      "frameworks": [
+        "huh"
+      ]
+    },
+    "tags": [
+      "go",
+      "cli",
+      "utility"
+    ],
+    "todos": true,
+    "scaffold": {
+      "exec": [
+        "td init | echo N",
+        "npx skills@latest add marcus/td@td-task-management -p -y",
+        "npx skills@latest add mattpocock/skills -p -y --skills grill-me grill-with-docs improve-codebase-architecture setup-matt-pocock-skills to-issues to-prd triage write-a-skill zoom-out",
+        "agentsmesh import --from codex-cli",
+        "agentsmesh generate"
+      ]
+    }
+  }
+}

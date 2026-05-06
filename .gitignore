@@ -1,0 +1,29 @@
+# env
+.env
+.envrc
+.mcp.json
+mcp.json
+.agentsmesh/mcp.json
+
+# docs, contex
+./docs/
+
+# agents
+agentsmesh.local.yaml
+.agentsmeshcache
+.agentsmesh/.lock.tmp
+.agentsmesh/packs/
+./.agents/
+!/.agents/skills/*
+/skills
+.mux/
+.claude/
+.codex/
+.opencode/
+skills-lock.json
+opencode.json
+opencode.jsonc
+CLAUDE.md
+
+# todos
+./.todos/

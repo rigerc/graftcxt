@@ -1,0 +1,76 @@
+# Auto-generated. DO NOT EDIT MANUALLY.
+# Tracks the state of all config files for team conflict resolution.
+
+generated_at: 2026-05-06T16:01:51.478Z
+generated_by: bond
+lib_version: 0.11.0
+checksums:
+  agents/_example.md: sha256:335780c653c0deb6db2971d8a9e2a25beca8ab467442ca7c0be70e48ad6d543c
+  commands/_example.md: sha256:8eb175f909f6acc109f5b4c47286393b945422f0c256bfde8af2d536d600577e
+  commands/init-rules.md: sha256:2a27e6c9e542a0b4b970146831821379bf66490a42cdb78c54251f18524b8f20
+  commands/plan-task.md: sha256:7a48145a8bb06d370cc4a5b0956db24b213a3b2c02406de50f260abbf6ac1f7e
+  hooks.yaml: sha256:e6172228d1a35367871a5be05ada33e5c7e07a9f6ecae4108fedaaec1989be1a
+  ignore: sha256:b71641360cf120445e4b90844b4130053c68d55ead2cf7164f63c7208c1bcc02
+  permissions.yaml: sha256:928e45ce5b43ca076ba2ad8d2884a676fa244d47dc85a801f0acb92c2f1fab13
+  rules/_example.md: sha256:3aed4a8359f650ceed854ce037489ba60bfaf245f46df11b164e9d6dd5f29b42
+  rules/_root.md: sha256:d20b1f94a0cb5f2ad5a58bc2c06df2740fb35db5cff02f508d61f3991b524f17
+  rules/common.md: sha256:c781f3bdbb8a11339a044bf604901a2e6fd55c69f25a6aa0b6b507c219bbd0ac
+  skills/agentsmesh/SKILL.md: sha256:cf3181726e7bfbf7c579ee2cb1337e7a66a207f79cda7dad98c1c71035026183
+  skills/agentsmesh/references/canonical-features.md: sha256:4600cd904b5a59f4cdc414690016bd7953efc61053cd35b32b7ab9907b873cf3
+  skills/agentsmesh/references/configuration.md: sha256:2686b7497f02406cf19f6fbb4ba57853cce27998d9020e04f9d4b55bc97630f8
+  skills/agentsmesh/references/targets.md: sha256:eaf64330d2f1c4dc0ae96c118f2f859171349baec10b3ca7b512d32c30f205e8
+  skills/caveman/SKILL.md: sha256:d5b8ad46dd860426c39c1ad379e272b8cabf9adbfd974f14f1d8fbc77256b387
+  skills/diagnose/SKILL.md: sha256:6a27faf08f420c0d97680697ebc58ca43f4dfeee8944d859fd633f2255493f32
+  skills/diagnose/scripts/hitl-loop.template.sh: sha256:b2932630950e5210075bcd6f850e5accf30c101c5367b29eac3a29b4dd8084c8
+  skills/grill-me/SKILL.md: sha256:2630167f799732d4b3bb873b87729215359b79112f936594bf8286cbace21030
+  skills/grill-with-docs/ADR-FORMAT.md: sha256:f1f36cd3f8d3b6474ddd5855da4e233bfc4ae1a1c5024909ccf11871819a41b2
+  skills/grill-with-docs/CONTEXT-FORMAT.md: sha256:8f6baaa3b1c91644bd7c600196b1aee781d5f525c7c345db8cdfbfb368329a05
+  skills/grill-with-docs/SKILL.md: sha256:ffbaae51d42d4cda8e7997f171ee0a519e0a255e9449a954bf79222c37ea6f48
+  skills/improve-codebase-architecture/DEEPENING.md: sha256:d6ec33fb6bf127d874b9c57546bfec7a4c8a6058f246e781758dc06ddffad889
+  skills/improve-codebase-architecture/INTERFACE-DESIGN.md: sha256:5d424e9fc94bae75a0932c66a8295b830aba8015eedd8142b59842c4e75cfd19
+  skills/improve-codebase-architecture/LANGUAGE.md: sha256:6feca2140439c54a774749e8367f18350899ff69c777144ed2248cd4407949fa
+  skills/improve-codebase-architecture/SKILL.md: sha256:27632c358fccc006e8c81161f1a38da2b89c9e875edc137bb0e84ec8e5d63e99
+  skills/prototype/LOGIC.md: sha256:bac6118b7f343373e77d2a88ff76007396cfe1388eccb25cef966f4c41e2b7fe
+  skills/prototype/SKILL.md: sha256:c5b38c340ba8d7e6bb3b583d3aeafc2ce2697245334da9e96a3ecea6c26dbc58
+  skills/prototype/UI.md: sha256:e07cc5ad0db6d8339648754f44af266c765e003166c73588117e1e54b8520629
+  skills/repo-copier/.vscode/settings.json: sha256:49de07a66e9339bb6bdde43ab607a3270d2267aaa858d5cf23924c777527cc6a
+  skills/repo-copier/LICENSE: sha256:dad702a20fb01383b7ca8f55c89c454356c9ea1615186e12ec553a2ccf18808b
+  skills/repo-copier/Makefile: sha256:ea7739c420b9d988f80da9ac88fa4408a3345066eb25a698c4b7962dbfa7ad00
+  skills/repo-copier/README.md: sha256:53b9e513cc8c935cbcb5e09b1aca1d565468182715064a50646a7fcad514dd30
+  skills/repo-copier/SKILL.md: sha256:56caf9e5f0b60928f5c9b632e29e660db760f723628ec2ed412ccf12270dd064
+  skills/repo-copier/VERSION: sha256:9fd28642d3aca191e5c7fc2383cfd6fabb2aac8743f029dabb8989ac584e31bc
+  skills/repo-copier/evals/evals.json: sha256:e55928dc8d6520b50e34051212568e5f36348b6602f0ed9f2218b0c6fce924d1
+  skills/repo-copier/reference/configuring.md: sha256:2ebe76b226ac309f40b9006f4f9ee09ba6d1b60ac546eec994bbe91595184038
+  skills/repo-copier/reference/creating.md: sha256:566e9c4e6dc0708a941f4c47fe0c9bc75e9b55956c61019541dd63deed7dc29e
+  skills/repo-copier/reference/faq.md: sha256:d406f2b4ac498613ede9c03cddd813c243138eaad59927d0eb46d440497d1dd0
+  skills/repo-copier/reference/generating.md: sha256:48f5a24d11041f4684cec713f8bf177dc668c3095cacd4cdd0116b5a70a84573
+  skills/repo-copier/reference/settings-reference.md: sha256:3205b25d9989002aeb9ce1211a0d1ce9eb698bfe50bcb6d9cbf4df82a81d40df
+  skills/repo-copier/reference/updating.md: sha256:7d5b6432c7ddd9fa2e0a23ac4a0fc80064f607097cad3accfe5cf0aa7fe75e72
+  skills/repo-copier/reference/user-settings.md: sha256:34ca05b7c3d05e983683f310e338cbb1381965e451bb579c98695ef6c45d83c0
+  skills/repo-copier/vendor/inline: sha256:18603bc023185f08e4b048e90f8ac96ddbe326086dedb8e68f077cc644e4ade2
+  skills/repo-copier/vendor/semver: sha256:852e330222b30ce24fafba2e6d5a346d77ad0018f5e95e80db371e0237bb4711
+  skills/repo-copier/vendor/set-skill-version: sha256:c18c0d96b10cab92875572c7219166872693dd8788bd644a9846452f7105ddc0
+  skills/setup-matt-pocock-skills/SKILL.md: sha256:09727b702798331511897c9580fee8d0e617e3b09b6c8c912f980a9df0c4d248
+  skills/setup-matt-pocock-skills/domain.md: sha256:a8cc3d1c11c9cdea455f39c4090cf61ac273f2474dd6f229ab0c2b9b1deec759
+  skills/setup-matt-pocock-skills/issue-tracker-github.md: sha256:f0e138631d1fc8aedc9e05d25bc688b97679f81eae7a7c760dd35e0790568370
+  skills/setup-matt-pocock-skills/issue-tracker-gitlab.md: sha256:a75ca853587278c860ca2cebafb5156eac1b30102fb0ba2a1713e2e0a3d06fe2
+  skills/setup-matt-pocock-skills/issue-tracker-local.md: sha256:b29119c514b99c5d01527215581a09425be941fe186f359a5685042b9b77485b
+  skills/setup-matt-pocock-skills/triage-labels.md: sha256:4f53c9b40ce2651e3611aa090eaedbd6dbc9b71ef8c5f7e65eac0d8263190d0d
+  skills/td-task-management/SKILL.md: sha256:a6788f4385c3ceb0595bd00cfc6d20c44a29dc1fadb1d5150dc2abee3e646e80
+  skills/td-task-management/references/ai_agent_workflows.md: sha256:bfe8322a60485d56bb11c7db5a4b85d89169f4b6aaf514997b385d2fa64f87bc
+  skills/td-task-management/references/quick_reference.md: sha256:8916442063a800b49a324f591429b99689d31c89a7b2a1e83577153b8a474af1
+  skills/tdd/SKILL.md: sha256:fd5c37807dc6a10c8d2d06bb158e0c932a3b98c9d8fe5e89e5f6bcfe8fc9da11
+  skills/tdd/deep-modules.md: sha256:f2123700bf953db1740625686c75bdd145efd486357c47c6818c869fee657a32
+  skills/tdd/interface-design.md: sha256:764c5ff0e3fa6b4ab7095eb65ccc7201e090baf19fa16051dfdb72c06d27417d
+  skills/tdd/mocking.md: sha256:3ceb807fdf4a47d6a93d4d9a891e5ba6d362a6247bd08adc451feebfc17361ef
+  skills/tdd/refactoring.md: sha256:54fced22dd1911b7094c3fe7979b7c1a40d40be307482c4adf7dc0588f27d6cc
+  skills/tdd/tests.md: sha256:e12182f5c4c6a844b7c6ab4b8d2623b642aaaae5460fe58ed087efd4f3d5fb8a
+  skills/to-issues/SKILL.md: sha256:50231595e1818761e3e8152a709ad72b26c0894fdd95835317c958e6b70b0e0e
+  skills/to-prd/SKILL.md: sha256:6976a08ad34a4f547243f149ec52079e2e644e9fc8e149e291bab057a129c614
+  skills/triage/AGENT-BRIEF.md: sha256:1c71c747aa97d938f75ec7a4b8fe87451763b38a3ce6348acf2b222e5819b2e5
+  skills/triage/OUT-OF-SCOPE.md: sha256:8ed8cf27833444060c81b3961a83c0e3d8e6cf2fcb2ddf6f8b07c6655cbb0d85
+  skills/triage/SKILL.md: sha256:6f24412ba1b8015808b96f3fefcc36e67e50c0369bd5bbe11a99f8e8c36aadac
+  skills/write-a-skill/SKILL.md: sha256:c63c3474313be92bb02f5dd223484529704746ccefa6209cab684c3a034dab1e
+  skills/zoom-out/SKILL.md: sha256:11589abc218301617b184114a2bc3a9e494198638988629d4013d501d302a49c
+extends: {}
+packs: {}
