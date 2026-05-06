@@ -1,0 +1,21 @@
+{
+  "deps": [
+    "td",
+    "rulesync"
+  ],
+  "exec": [
+    "touch .env",
+    "touch .envrc",
+    "td init",
+    "chmod +x ./scripts/dg.sh",
+    "chmod +x ./.rulesync/hooks/init.sh",
+    "rulesync generate"
+  ],
+  "open": [
+    "zeditor .",
+    "codex",
+    "claude",
+    "lazygit"
+  ],
+  "info": ".todo directory initialized, ai configs generated. use 'npx skills' cli to add skills. see README for more info."
+}

@@ -1,0 +1,43 @@
+# env
+
+.env
+.envrc
+.mcp.json
+mcp.json
+.rulesync/mcp.json
+
+# docs, context
+
+docs/
+.todos/
+.context.json
+
+# ai agents
+
+#.agents/
+
+.gemini/
+.claude/
+.zed/
+!.zed/settings.json
+.opencode/
+.codex/
+.junie/
+.mux/
+
+.cursor/
+.antigravity/
+
+opencode.json
+opencode.jsonc
+CLAUDE.md
+
+# repo scaffold guidance
+guidance.md
+
+# skills cli
+skills-lock.json
+
+# logs
+
+.rulesync/init-hook.log
