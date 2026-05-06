@@ -10,11 +10,12 @@ import (
 )
 
 var (
-	addDir string
+	addDir   string
+	addDryRun bool
 
 	addCmd = &cobra.Command{
 		Use:   "add [repo]",
-		Short: "Add and sync a GitHub repo (default to docs/context/)",
+		Short: "Add a GitHub repo to project tracking (use 'sync' to download)",
 		Args:  cobra.MaximumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			repoID := ""
@@ -45,21 +46,27 @@ var (
 			if ctx.HasEntry(pf, repoID) {
 				return fmt.Errorf("%s is already tracked", repoID)
 			}
-			dest := contextEntryPath(projectFile, ctx.ContextEntry{Name: name, Dir: addDir})
-			gh, err := ctx.NewGitHubClient()
-			if err != nil {
-				return err
+
+			// Calculate destination path
+			entry := ctx.ContextEntry{Repo: repoID, Name: name, Dir: addDir}
+			dest := contextEntryPath(projectFile, entry)
+
+			if addDryRun {
+				fmt.Fprintf(cmd.OutOrStdout(), "[DRY-RUN] Would add to project file:\n")
+				fmt.Fprintf(cmd.OutOrStdout(), "  Repo: %s\n", repoID)
+				fmt.Fprintf(cmd.OutOrStdout(), "  Name: %s\n", name)
+				fmt.Fprintf(cmd.OutOrStdout(), "  Dir:  %s\n", dest)
+				fmt.Fprintf(cmd.OutOrStdout(), "\nRun 'graftcxt sync' to download the repository files.\n")
+				return nil
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "Syncing %s...\n", repoID)
-			if err := ctx.SyncRepoWithWriter(repoID, dest, gh, cmd.OutOrStdout()); err != nil {
-				return err
-			}
-			now := ctx.NowString()
-			ctx.AddEntry(pf, ctx.ContextEntry{Repo: repoID, Name: name, LastSync: &now, Dir: addDir})
+
+			// Just add to project file (no syncing)
+			ctx.AddEntry(pf, entry)
 			if err := ctx.Save(projectFile, pf); err != nil {
 				return err
 			}
 			fmt.Fprintf(cmd.OutOrStdout(), "Added %s -> %s\n", repoID, dest)
+			fmt.Fprintf(cmd.OutOrStdout(), "Run 'graftcxt sync' to download the repository files.\n")
 			return nil
 		},
 	}
@@ -67,5 +74,6 @@ var (
 
 func init() {
 	addCmd.Flags().StringVar(&addDir, "dir", "", "custom directory for this repo (relative to project dir)")
+	addCmd.Flags().BoolVar(&addDryRun, "dry-run", false, "preview addition without modifying project file")
 	rootCmd.AddCommand(addCmd)
 }

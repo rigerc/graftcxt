@@ -44,3 +44,21 @@
 {"ts":"2026-05-06T19:43:14.948945281+02:00","cmd":"show","session":"ses_80f3b8","ok":true,"dur_ms":6}
 {"ts":"2026-05-06T19:43:15.017116365+02:00","cmd":"show","session":"ses_80f3b8","ok":true,"dur_ms":2}
 {"ts":"2026-05-06T19:43:15.075951289+02:00","cmd":"show","session":"ses_80f3b8","ok":true,"dur_ms":3}
+{"ts":"2026-05-06T19:46:32.750564746+02:00","cmd":"ws","sub":"start","session":"ses_80f3b8","ok":true,"dur_ms":106}
+{"ts":"2026-05-06T19:46:32.918209962+02:00","cmd":"ws","sub":"tag","session":"ses_80f3b8","ok":true,"dur_ms":214}
+{"ts":"2026-05-06T19:50:18.405611371+02:00","cmd":"ws","sub":"log","session":"ses_80f3b8","ok":true,"dur_ms":39}
+{"ts":"2026-05-06T19:50:18.497800539+02:00","cmd":"ws","sub":"log","session":"ses_80f3b8","ok":true,"dur_ms":43}
+{"ts":"2026-05-06T19:50:18.610098094+02:00","cmd":"ws","sub":"log","session":"ses_80f3b8","ok":true,"dur_ms":62}
+{"ts":"2026-05-06T19:51:03.801800188+02:00","cmd":"review","session":"ses_80f3b8","ok":true,"dur_ms":53}
+{"ts":"2026-05-06T19:51:03.90063799+02:00","cmd":"review","session":"ses_80f3b8","ok":true,"dur_ms":51}
+{"ts":"2026-05-06T19:51:04.003955268+02:00","cmd":"review","session":"ses_80f3b8","ok":true,"dur_ms":48}
+{"ts":"2026-05-06T19:53:45.354487763+02:00","cmd":"usage","flags":{"new-session":"true"},"session":"ses_d42e49","ok":true,"dur_ms":41}
+{"ts":"2026-05-06T19:53:55.113098196+02:00","cmd":"create","flags":{"description":"Replace static progress indicators with live-updating spinners using huh v2 spinner component, referenced from mkproject huh examples.","priority":"P2","type":"feature"},"session":"ses_d42e49","ok":true,"dur_ms":86}
+{"ts":"2026-05-06T19:54:17.946123338+02:00","cmd":"update","flags":{"append":"true","description-file":"-"},"session":"ses_d42e49","ok":true,"dur_ms":54}
+{"ts":"2026-05-06T19:54:25.678588187+02:00","cmd":"show","session":"ses_d42e49","ok":true,"dur_ms":9}
+{"ts":"2026-05-06T19:54:37.120737151+02:00","cmd":"link","session":"ses_d42e49","ok":true,"dur_ms":73}
+{"ts":"2026-05-06T19:54:37.126145323+02:00","cmd":"update","flags":{"append":"true","description-file":"docs/plans/td-eb639c-spinner-enhancement.md"},"session":"ses_d42e49","ok":true,"dur_ms":78}
+{"ts":"2026-05-06T19:54:37.255760559+02:00","cmd":"files","session":"ses_d42e49","ok":true,"dur_ms":3}
+{"ts":"2026-05-06T19:55:37.131353859+02:00","cmd":"update","flags":{"append":"true","description-file":"docs/plans/td-eb639c-spinner-enhancement.md"},"session":"ses_d42e49","ok":true,"dur_ms":63}
+{"ts":"2026-05-06T19:57:11.926618939+02:00","cmd":"update","flags":{"append":"true","description-file":"docs/plans/td-eb639c-spinner-enhancement.md"},"session":"ses_d42e49","ok":true,"dur_ms":45}
+{"ts":"2026-05-06T19:57:19.54715077+02:00","cmd":"show","session":"ses_d42e49","ok":true,"dur_ms":6}

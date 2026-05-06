@@ -10,6 +10,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var remDryRun bool
+
 var remCmd = &cobra.Command{
 	Use:   "rem [repo]",
 	Short: "Remove a tracked repo from docs/ and .project.json",
@@ -45,7 +47,16 @@ var remCmd = &cobra.Command{
 				break
 			}
 		}
-		if err := os.RemoveAll(contextEntryPath(projectFile, entry)); err != nil {
+		dest := contextEntryPath(projectFile, entry)
+
+		if remDryRun {
+			fmt.Fprintf(cmd.OutOrStdout(), "[DRY-RUN] Would remove:\n")
+			fmt.Fprintf(cmd.OutOrStdout(), "  Repo: %s\n", repoID)
+			fmt.Fprintf(cmd.OutOrStdout(), "  Dir:  %s\n", dest)
+			return nil
+		}
+
+		if err := os.RemoveAll(dest); err != nil {
 			return err
 		}
 		ctx.RemoveEntry(pf, repoID)
@@ -57,4 +68,7 @@ var remCmd = &cobra.Command{
 	},
 }
 
-func init() { rootCmd.AddCommand(remCmd) }
+func init() {
+	remCmd.Flags().BoolVar(&remDryRun, "dry-run", false, "preview removal without deleting files")
+	rootCmd.AddCommand(remCmd)
+}
