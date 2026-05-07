@@ -3,8 +3,8 @@ package ui
 import (
 	"sync"
 
-	tea "charm.land/bubbletea/v2"
 	"charm.land/bubbles/v2/spinner"
+	tea "charm.land/bubbletea/v2"
 )
 
 // Get the Dot spinner type
@@ -12,10 +12,10 @@ var dotSpinner = spinner.Dot
 
 // liveSpinnerModel is a custom bubbletea model that supports live-updating the title.
 type liveSpinnerModel struct {
-	spin      spinner.Model
-	title     string
-	mu        sync.RWMutex
-	done      chan error
+	spin       spinner.Model
+	title      string
+	mu         sync.RWMutex
+	done       chan error
 	actionDone chan struct{}
 }
 
@@ -87,14 +87,14 @@ func RunLiveSpinner(title string, action func(updateTitle func(string)) error) e
 
 	// Wait for the action to complete and get the error
 	actionErr := <-m.done
-	
+
 	// Check if the final model has an error
 	if finalModel != nil {
 		if mm, ok := finalModel.(*liveSpinnerModel); ok {
 			_ = mm
 		}
 	}
-	
+
 	return actionErr
 }
 

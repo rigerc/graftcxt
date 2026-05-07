@@ -3,7 +3,7 @@ package context
 import (
 	stdctx "context"
 	"encoding/base64"
-	"encoding/json"
+	stdjson "encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -16,7 +16,11 @@ import (
 	"time"
 
 	"github.com/google/go-github/v68/github"
-	
+	"github.com/knadh/koanf/parsers/json"
+	"github.com/knadh/koanf/providers/confmap"
+	"github.com/knadh/koanf/providers/rawbytes"
+	"github.com/knadh/koanf/v2"
+
 	"github.com/rigerc/graftcxt/internal/githubclient"
 )
 
@@ -29,9 +33,9 @@ type ContextEntry struct {
 }
 
 type ProjectFile struct {
-	Project json.RawMessage `json:"project,omitempty"`
-	Skills  json.RawMessage `json:"skills,omitempty"`
-	Context []ContextEntry  `json:"context"`
+	Project stdjson.RawMessage `json:"project,omitempty"`
+	Skills  stdjson.RawMessage `json:"skills,omitempty"`
+	Context []ContextEntry     `json:"context"`
 }
 
 func Load(path string) (*ProjectFile, error) {
@@ -39,8 +43,12 @@ func Load(path string) (*ProjectFile, error) {
 	if err != nil {
 		return nil, err
 	}
+	k := koanf.New(".")
+	if err := k.Load(rawbytes.Provider(b), json.Parser()); err != nil {
+		return nil, err
+	}
 	var pf ProjectFile
-	if err := json.Unmarshal(b, &pf); err != nil {
+	if err := stdjson.Unmarshal(b, &pf); err != nil {
 		return nil, err
 	}
 	if pf.Context == nil {
@@ -53,7 +61,15 @@ func Save(path string, pf *ProjectFile) error {
 	if pf.Context == nil {
 		pf.Context = []ContextEntry{}
 	}
-	b, err := json.MarshalIndent(pf, "", "  ")
+	k := koanf.New(".")
+	data, err := projectFileMap(pf)
+	if err != nil {
+		return err
+	}
+	if err := k.Load(confmap.Provider(data, "."), nil); err != nil {
+		return err
+	}
+	b, err := k.Marshal(json.Parser())
 	if err != nil {
 		return err
 	}
@@ -76,6 +92,25 @@ func Save(path string, pf *ProjectFile) error {
 		return err
 	}
 	return os.Rename(tmpName, path)
+}
+
+func projectFileMap(pf *ProjectFile) (map[string]any, error) {
+	data := map[string]any{"context": pf.Context}
+	if len(pf.Project) > 0 {
+		var project any
+		if err := stdjson.Unmarshal(pf.Project, &project); err != nil {
+			return nil, err
+		}
+		data["project"] = project
+	}
+	if len(pf.Skills) > 0 {
+		var skills any
+		if err := stdjson.Unmarshal(pf.Skills, &skills); err != nil {
+			return nil, err
+		}
+		data["skills"] = skills
+	}
+	return data, nil
 }
 
 func ParseRepoRef(repoID string) (owner, repo, subdir, ref string, err error) {
@@ -175,7 +210,7 @@ func NewGitHubClient() (*github.Client, error) {
 	}
 	svc := githubclient.NewService(token)
 	return svc.Client(), nil
-}  
+}
 
 func SyncRepo(repoID, destPath string, gh *github.Client, progressFn func(path string)) error {
 	owner, repo, subdir, ref, err := ParseRepoRef(repoID)
@@ -233,10 +268,10 @@ func SyncRepo(repoID, destPath string, gh *github.Client, progressFn func(path s
 	// Concurrent download with worker pool
 	const maxWorkers = 5
 	var (
-		wg     sync.WaitGroup
-		mu     sync.Mutex
+		wg      sync.WaitGroup
+		mu      sync.Mutex
 		downErr error
-		seen   = make(map[string]bool)
+		seen    = make(map[string]bool)
 	)
 
 	jobs := make(chan blobEntry, len(blobs))
@@ -247,9 +282,7 @@ func SyncRepo(repoID, destPath string, gh *github.Client, progressFn func(path s
 
 	// Start workers
 	for i := 0; i < maxWorkers && i < len(blobs); i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+		wg.Go(func() {
 			for job := range jobs {
 				// Check for earlier error
 				mu.Lock()
@@ -304,7 +337,7 @@ func SyncRepo(repoID, destPath string, gh *github.Client, progressFn func(path s
 					progressFn(job.path)
 				}
 			}
-		}()
+		})
 	}
 
 	wg.Wait()

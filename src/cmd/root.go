@@ -6,15 +6,22 @@ import (
 	"path/filepath"
 
 	ctx "github.com/rigerc/graftcxt/internal/context"
+	"github.com/rigerc/graftcxt/internal/output"
 	"github.com/spf13/cobra"
 )
 
-var projectPath string
+var (
+	projectPath string
+	silentMode  bool
+)
 
 var rootCmd = &cobra.Command{
 	Use:          "graftcxt",
 	Short:        "Graft external GitHub repos into your project context",
 	SilenceUsage: true,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		output.SetSilent(silentMode)
+	},
 }
 
 func Execute() {
@@ -26,6 +33,7 @@ func Execute() {
 
 func init() {
 	rootCmd.PersistentFlags().StringVar(&projectPath, "project", ".project.json", "path to project JSON file")
+	rootCmd.PersistentFlags().BoolVar(&silentMode, "silent", false, "suppress non-essential output")
 }
 
 func resolvedProjectPath() (string, error) {
@@ -54,8 +62,6 @@ func resolvedProjectPath() (string, error) {
 		dir = parent
 	}
 }
-
-func docsDir(projectFile string) string { return filepath.Join(filepath.Dir(projectFile), "docs") }
 
 func contextEntryPath(projectFile string, entry ctx.ContextEntry) string {
 	return ctx.ContextEntryPath(projectFile, entry)

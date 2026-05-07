@@ -6,6 +6,7 @@ import (
 	"os"
 
 	ctx "github.com/rigerc/graftcxt/internal/context"
+	"github.com/rigerc/graftcxt/internal/output"
 	"github.com/rigerc/graftcxt/internal/ui"
 	"github.com/spf13/cobra"
 )
@@ -50,9 +51,9 @@ var remCmd = &cobra.Command{
 		dest := contextEntryPath(projectFile, entry)
 
 		if remDryRun {
-			fmt.Fprintf(cmd.OutOrStdout(), "[DRY-RUN] Would remove:\n")
-			fmt.Fprintf(cmd.OutOrStdout(), "  Repo: %s\n", repoID)
-			fmt.Fprintf(cmd.OutOrStdout(), "  Dir:  %s\n", dest)
+			output.Fprintf(cmd.OutOrStdout(), "[DRY-RUN] Would remove:\n")
+			output.Fprintf(cmd.OutOrStdout(), "  Repo: %s\n", repoID)
+			output.Fprintf(cmd.OutOrStdout(), "  Dir:  %s\n", dest)
 			return nil
 		}
 
@@ -63,7 +64,7 @@ var remCmd = &cobra.Command{
 		if err := ctx.Save(projectFile, pf); err != nil {
 			return err
 		}
-		fmt.Fprintf(cmd.OutOrStdout(), "Removed %s\n", repoID)
+		output.Fprintf(cmd.OutOrStdout(), "Removed %s\n", repoID)
 		return nil
 	},
 }

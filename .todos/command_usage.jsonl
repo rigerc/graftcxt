@@ -94,3 +94,20 @@
 {"ts":"2026-05-06T20:41:38.166460865+02:00","cmd":"show","session":"ses_5666e6","ok":true,"dur_ms":2}
 {"ts":"2026-05-06T20:58:01.982521217+02:00","cmd":"usage","flags":{"new-session":"true"},"session":"ses_25cc07","ok":true,"dur_ms":81}
 {"ts":"2026-05-06T20:58:02.134002683+02:00","cmd":"list","flags":{"status":"[open]"},"session":"ses_25cc07","ok":true,"dur_ms":3}
+{"ts":"2026-05-06T20:58:05.189388825+02:00","cmd":"show","session":"ses_25cc07","ok":true,"dur_ms":7}
+{"ts":"2026-05-06T20:58:05.260688743+02:00","cmd":"show","session":"ses_25cc07","ok":true,"dur_ms":2}
+{"ts":"2026-05-06T20:58:05.333197532+02:00","cmd":"show","session":"ses_25cc07","ok":true,"dur_ms":3}
+{"ts":"2026-05-06T20:58:09.614474872+02:00","cmd":"ws","sub":"current","session":"ses_25cc07","ok":true,"dur_ms":91}
+{"ts":"2026-05-06T20:58:09.777819279+02:00","cmd":"ws","sub":"tag","session":"ses_25cc07","ok":true,"dur_ms":267}
+{"ts":"2026-05-06T21:02:55.628724851+02:00","cmd":"ws","sub":"log","session":"ses_25cc07","ok":true,"dur_ms":50}
+{"ts":"2026-05-06T21:02:55.734736871+02:00","cmd":"review","session":"ses_25cc07","ok":true,"dur_ms":82}
+{"ts":"2026-05-06T21:02:55.884860432+02:00","cmd":"review","session":"ses_25cc07","ok":true,"dur_ms":63}
+{"ts":"2026-05-06T21:02:56.004163558+02:00","cmd":"review","session":"ses_25cc07","ok":true,"dur_ms":64}
+{"ts":"2026-05-06T21:03:01.335099794+02:00","cmd":"ws","sub":"handoff","flags":{"decision":"[Kept ls output visible under --silent because acceptance criteria define it as command output. Kept encoding/json only for RawMessage preservation around koanf.]","done":"[\"Implemented td-991f51: added koanf dependencies and switched project file load/save to koanf parser/provider while preserving raw project/skills fields. Implemented td-e110a9: added global --silent flag plus output helper; add/rem/sync non-essential output and sync spinner are suppressed, ls still emits command output. Implemented td-24c10b: add form now prompts for optional directory and validates relative safe paths; --dir path validation also enforced.\"]","remaining":"[\"Review pending for td-991f51, td-e110a9, td-24c10b. Existing unrelated modified files from previous work session remain in working tree.\"]"},"session":"ses_25cc07","ok":true,"dur_ms":291}
+{"ts":"2026-05-06T21:06:38.920157707+02:00","cmd":"log","session":"ses_25cc07","ok":true,"dur_ms":51}
+{"ts":"2026-05-06T21:08:40.71527563+02:00","cmd":"usage","flags":{"new-session":"true"},"session":"ses_70b2bd","ok":true,"dur_ms":57}
+{"ts":"2026-05-06T21:08:40.833479384+02:00","cmd":"create","flags":{"priority":"P1","type":"bug"},"session":"ses_70b2bd","ok":true,"dur_ms":85}
+{"ts":"2026-05-06T21:08:40.974106897+02:00","cmd":"list","flags":{"json":"true","status":"[open]"},"session":"ses_70b2bd","ok":true,"dur_ms":3}
+{"ts":"2026-05-06T21:08:41.04936996+02:00","cmd":"start","session":"ses_70b2bd","ok":true,"dur_ms":114}
+{"ts":"2026-05-06T21:11:41.048356477+02:00","cmd":"log","session":"ses_70b2bd","ok":true,"dur_ms":48}
+{"ts":"2026-05-06T21:11:41.141449467+02:00","cmd":"review","session":"ses_70b2bd","ok":true,"dur_ms":60}

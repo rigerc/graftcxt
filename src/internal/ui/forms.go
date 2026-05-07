@@ -12,8 +12,7 @@ import (
 
 var ErrAborted = errors.New("aborted")
 
-func InputRepoForm() (string, error) {
-	var repo string
+func InputRepoForm() (repo, dir string, err error) {
 	form := huh.NewForm(huh.NewGroup(
 		huh.NewInput().
 			Title("Repository").
@@ -30,11 +29,32 @@ func InputRepoForm() (string, error) {
 				}
 				return nil
 			}),
+		huh.NewInput().
+			Title("Directory (optional)").
+			Description("Custom directory for this repo (relative to project dir). Leave empty for default.").
+			Placeholder("e.g., docs/custom-context").
+			Value(&dir).
+			CharLimit(200).
+			Validate(validateRelativeDir),
 	)).WithTheme(graftcxtTheme())
 	if err := form.Run(); err != nil {
-		return "", mapAbort(err)
+		return "", "", mapAbort(err)
 	}
-	return repo, nil
+	return repo, strings.TrimSpace(dir), nil
+}
+
+func validateRelativeDir(s string) error {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return nil
+	}
+	if strings.HasPrefix(s, "/") || strings.HasPrefix(s, "~") {
+		return fmt.Errorf("directory must be relative to the project")
+	}
+	if strings.Contains("/"+strings.ReplaceAll(s, "\\", "/")+"/", "/../") {
+		return fmt.Errorf("directory must not contain ..")
+	}
+	return nil
 }
 
 func isValidRepoFormat(s string) bool {
@@ -75,13 +95,6 @@ func SelectRepoForm(entries []ctx.ContextEntry) (string, error) {
 		return "", mapAbort(err)
 	}
 	return repo, nil
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
 
 func graftcxtTheme() huh.Theme {

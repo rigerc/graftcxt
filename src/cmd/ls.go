@@ -45,7 +45,7 @@ var lsCmd = &cobra.Command{
 			_ = filepath.WalkDir(dest, func(path string, d os.DirEntry, err error) error {
 				if err == nil && !d.IsDir() {
 					fileCount++
-			}
+				}
 				return nil
 			})
 			totalFiles += fileCount

@@ -9,10 +9,11 @@ import (
 	"time"
 
 	"charm.land/lipgloss/v2"
+	"github.com/google/go-github/v68/github"
 	ctx "github.com/rigerc/graftcxt/internal/context"
+	"github.com/rigerc/graftcxt/internal/output"
 	"github.com/rigerc/graftcxt/internal/ui"
 	"github.com/spf13/cobra"
-	"github.com/google/go-github/v68/github"
 )
 
 var syncDryRun bool
@@ -31,7 +32,7 @@ var syncCmd = &cobra.Command{
 			return err
 		}
 		if len(pf.Context) == 0 {
-			fmt.Fprintln(cmd.OutOrStdout(), "No tracked repos to sync. Use 'graftcxt add' to add repositories.")
+			output.Fprintln(cmd.OutOrStdout(), "No tracked repos to sync. Use 'graftcxt add' to add repositories.")
 			return nil
 		}
 
@@ -42,8 +43,8 @@ var syncCmd = &cobra.Command{
 
 		// Header
 		header := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("69"))
-		fmt.Fprintf(cmd.OutOrStdout(), "%s\n", header.Render("🔄 Syncing tracked repositories..."))
-		fmt.Fprintln(cmd.OutOrStdout())
+		output.Fprintf(cmd.OutOrStdout(), "%s\n", header.Render("🔄 Syncing tracked repositories..."))
+		output.Fprintln(cmd.OutOrStdout())
 
 		totalFiles := 0
 		syncedRepos := 0
@@ -56,8 +57,8 @@ var syncCmd = &cobra.Command{
 			if e.LastSync != nil {
 				lastSync = *e.LastSync
 			}
-			fmt.Fprintf(cmd.OutOrStdout(), "  📦 %s\n", e.Repo)
-			fmt.Fprintf(cmd.OutOrStdout(), "     Last sync: %s\n", lastSync)
+			output.Fprintf(cmd.OutOrStdout(), "  📦 %s\n", e.Repo)
+			output.Fprintf(cmd.OutOrStdout(), "     Last sync: %s\n", lastSync)
 
 			dest := contextEntryPath(projectFile, e)
 
@@ -69,9 +70,9 @@ var syncCmd = &cobra.Command{
 					reason = "(force enabled)"
 				}
 				if wouldSkip {
-					fmt.Fprintf(cmd.OutOrStdout(), "     [DRY-RUN] Would skip: %s\n", reason)
+					output.Fprintf(cmd.OutOrStdout(), "     [DRY-RUN] Would skip: %s\n", reason)
 				} else {
-					fmt.Fprintf(cmd.OutOrStdout(), "     [DRY-RUN] Would sync to: %s\n", dest)
+					output.Fprintf(cmd.OutOrStdout(), "     [DRY-RUN] Would sync to: %s\n", dest)
 				}
 				continue
 			}
@@ -80,9 +81,9 @@ var syncCmd = &cobra.Command{
 			if !syncForce {
 				skip, reason := shouldSkipSync(gh, e)
 				if skip {
-					fmt.Fprintf(cmd.OutOrStdout(), "     ⏭️  Skipped: %s\n", reason)
+					output.Fprintf(cmd.OutOrStdout(), "     ⏭️  Skipped: %s\n", reason)
 					skippedRepos++
-					fmt.Fprintln(cmd.OutOrStdout())
+					output.Fprintln(cmd.OutOrStdout())
 					continue
 				}
 			}
@@ -90,17 +91,17 @@ var syncCmd = &cobra.Command{
 			// Count files before sync for comparison
 			filesBefore := countFiles(dest)
 
-			fmt.Fprintf(cmd.OutOrStdout(), "     Syncing...\n")
+			output.Fprintf(cmd.OutOrStdout(), "     Syncing...\n")
 
 			// Fetch current tree SHA before sync
 			owner, repo, _, ref, err := ctx.ParseRepoRef(e.Repo)
 			if err != nil {
-				fmt.Fprintf(cmd.OutOrStdout(), "     ❌ Error: %v\n", err)
+				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %v\n", err)
 				return err
 			}
 			tree, _, err := gh.Git.GetTree(context.Background(), owner, repo, ref, false)
 			if err != nil {
-				fmt.Fprintf(cmd.OutOrStdout(), "     ⚠️  Warning: Could not fetch tree SHA: %v\n", err)
+				output.Fprintf(cmd.OutOrStdout(), "     ⚠️  Warning: Could not fetch tree SHA: %v\n", err)
 				// Continue with sync - don't let tree SHA check block sync
 			}
 			currentTreeSHA := ""
@@ -108,15 +109,19 @@ var syncCmd = &cobra.Command{
 				currentTreeSHA = tree.GetSHA()
 			}
 
-			// Use a live-updating spinner for visual feedback during sync
-			err = ui.RunLiveSpinner(
-				fmt.Sprintf("Syncing %s", e.Repo),
-				func(updateTitle func(string)) error {
-					return ctx.SyncRepo(e.Repo, dest, gh, updateTitle)
-				},
-			)
+			// Use a live-updating spinner for visual feedback during sync unless silent.
+			if output.IsSilent() {
+				err = ctx.SyncRepo(e.Repo, dest, gh, nil)
+			} else {
+				err = ui.RunLiveSpinner(
+					fmt.Sprintf("Syncing %s", e.Repo),
+					func(updateTitle func(string)) error {
+						return ctx.SyncRepo(e.Repo, dest, gh, updateTitle)
+					},
+				)
+			}
 			if err != nil {
-				fmt.Fprintf(cmd.OutOrStdout(), "     ❌ Error: %v\n", err)
+				fmt.Fprintf(cmd.ErrOrStderr(), "Error: %v\n", err)
 				return err
 			}
 
@@ -132,9 +137,9 @@ var syncCmd = &cobra.Command{
 			}
 			syncedRepos++
 
-			fmt.Fprintf(cmd.OutOrStdout(), "     ✅ Synced: %d files (added %d new)\n", filesAfter, newFiles)
-			fmt.Fprintf(cmd.OutOrStdout(), "     Last sync: %s\n", now)
-			fmt.Fprintln(cmd.OutOrStdout())
+			output.Fprintf(cmd.OutOrStdout(), "     ✅ Synced: %d files (added %d new)\n", filesAfter, newFiles)
+			output.Fprintf(cmd.OutOrStdout(), "     Last sync: %s\n", now)
+			output.Fprintln(cmd.OutOrStdout())
 		}
 
 		if !syncDryRun {
@@ -145,11 +150,11 @@ var syncCmd = &cobra.Command{
 
 		// Summary
 		elapsed := time.Since(startTime).Round(time.Millisecond)
-		fmt.Fprintln(cmd.OutOrStdout(), strings.Repeat("─", 50))
+		output.Fprintln(cmd.OutOrStdout(), strings.Repeat("─", 50))
 		if syncDryRun {
-			fmt.Fprintf(cmd.OutOrStdout(), "[DRY-RUN] Would sync %d repos\n", len(pf.Context))
+			output.Fprintf(cmd.OutOrStdout(), "[DRY-RUN] Would sync %d repos\n", len(pf.Context))
 		} else {
-			fmt.Fprintf(cmd.OutOrStdout(), "✅ Synced %d repos, skipped %d repos, %d total files in %s\n", syncedRepos, skippedRepos, totalFiles, elapsed)
+			output.Fprintf(cmd.OutOrStdout(), "✅ Synced %d repos, skipped %d repos, %d total files in %s\n", syncedRepos, skippedRepos, totalFiles, elapsed)
 		}
 		return nil
 	},
