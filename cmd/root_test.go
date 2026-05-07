@@ -42,7 +42,7 @@ func TestResolvedProjectPathSearchesParents(t *testing.T) {
 	}
 }
 
-func TestResolvedProjectPathReportsHelpfulMissingDefault(t *testing.T) {
+func TestResolvedProjectPathCreatesMissingDefault(t *testing.T) {
 	oldProjectPath := projectPath
 	oldWd, err := os.Getwd()
 	if err != nil {
@@ -58,12 +58,20 @@ func TestResolvedProjectPathReportsHelpfulMissingDefault(t *testing.T) {
 		t.Fatal(err)
 	}
 	projectPath = ".project.json"
-	_, err = resolvedProjectPath()
-	if err == nil {
-		t.Fatal("expected missing project error")
+	got, err := resolvedProjectPath()
+	if err != nil {
+		t.Fatal(err)
 	}
-	if got := err.Error(); got == "open .project.json: no such file or directory" {
-		t.Fatalf("unhelpful error: %s", got)
+	want := filepath.Join(dir, ".project.json")
+	if got != want {
+		t.Fatalf("got %q, want %q", got, want)
+	}
+	pf, err := ctx.Load(want)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(pf.Context) != 0 {
+		t.Fatalf("got %d context entries, want 0", len(pf.Context))
 	}
 }
 

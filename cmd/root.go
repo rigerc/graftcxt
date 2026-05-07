@@ -38,16 +38,19 @@ func init() {
 
 func resolvedProjectPath() (string, error) {
 	if projectPath != ".project.json" {
-		if _, err := os.Stat(projectPath); err != nil {
+		if _, err := os.Stat(projectPath); err == nil {
+			return projectPath, nil
+		} else if !os.IsNotExist(err) {
 			return "", fmt.Errorf("project file %q not found: %w", projectPath, err)
 		}
-		return projectPath, nil
+		return createProjectFile(projectPath)
 	}
 
-	dir, err := os.Getwd()
+	cwd, err := os.Getwd()
 	if err != nil {
 		return "", err
 	}
+	dir := cwd
 	for {
 		candidate := filepath.Join(dir, ".project.json")
 		if _, err := os.Stat(candidate); err == nil {
@@ -57,10 +60,17 @@ func resolvedProjectPath() (string, error) {
 		}
 		parent := filepath.Dir(dir)
 		if parent == dir {
-			return "", fmt.Errorf("could not find .project.json in current directory or any parent; pass --project /path/to/.project.json")
+			return createProjectFile(filepath.Join(cwd, ".project.json"))
 		}
 		dir = parent
 	}
+}
+
+func createProjectFile(path string) (string, error) {
+	if err := ctx.Save(path, &ctx.ProjectFile{}); err != nil {
+		return "", err
+	}
+	return path, nil
 }
 
 func contextEntryPath(projectFile string, entry ctx.ContextEntry) string {
